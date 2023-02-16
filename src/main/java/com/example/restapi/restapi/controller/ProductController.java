@@ -2,6 +2,10 @@ package com.example.restapi.restapi.controller;
 
 import com.example.restapi.restapi.model.Product;
 import com.example.restapi.restapi.repo.ProductRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/api/products/")
+@Api(value = "ProductsControllerAPI", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
 
     private final Logger LOG = LoggerFactory.getLogger(ProductController.class);
@@ -23,6 +28,8 @@ public class ProductController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.GET)
+    @ApiOperation("Gets the products with specific id")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Product.class)})
     public Optional<Product> getProduct(@PathVariable(name = "id") String id) {
         return productRepository.findById(id);
     }
